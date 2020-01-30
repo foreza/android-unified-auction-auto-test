@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -25,15 +26,22 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    boolean isLoaded;
     boolean isInitialized;
     private AerServInterstitial interstitial;
 
 
+    Timer timer;
+    TimerTask timerTask;
+
+    //we are going to use a handler to be able to run in our TimerTask
+    final Handler handler = new Handler();
 
 
     @Override
@@ -44,10 +52,6 @@ public class MainActivity extends AppCompatActivity {
         if (!isInitialized) {
             initializeSDK();
             Log.v(TestConstants.LOG_TAG, "Initializing SDK");
-
-//            setupMetricAPI();
-//            Log.v(TestConstants.LOG_TAG, "Initializing Retrofit");
-
 
         }
 
@@ -65,9 +69,7 @@ public class MainActivity extends AppCompatActivity {
     public void beginAutomatedTest(View view){
 
         Log.v(TestConstants.LOG_TAG, "Beginning test at " + getCurrentTimeInMS().toString());
-        createInterstitial();
-
-
+        startTimer();
     }
 
 
@@ -81,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        isLoaded = false;
 
         // Make sure all ad calls are done from the main thread
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 setMetricStartTime();
-                interstitial = new AerServInterstitial(createInterstitialConfigWithPlacement(TestConstants.default_test_interstitial_id, createInterstitialListener()));
+                 interstitial = new AerServInterstitial(createInterstitialConfigWithPlacement(TestConstants.default_test_interstitial_id, createInterstitialListener()));
             }
 
             });
@@ -144,12 +147,13 @@ public class MainActivity extends AppCompatActivity {
                          AerServTransactionInformation ti = null;
                          switch (event) {
                              case PRELOAD_READY:
+                                 isLoaded = true;
                                  msg = "PRELOAD_READY event fired with args: " + args.toString();
                                  setMetricEndTime();
                                  calculateElapsedTime();
                                  PostSuccessMetricTask task = new PostSuccessMetricTask();
                                  task.execute();
-                                 showInterstitial();        // Show the interstitial as soon as Main thread is hit
+                             //     showInterstitial();        // Show the interstitial as soon as Main thread is hit
                                  break;
                              case AD_FAILED:
                                  if (args.size() > 1) {
@@ -160,10 +164,15 @@ public class MainActivity extends AppCompatActivity {
                                      msg = "Ad failed with code=" + adFailedCode + ", reason=" + adFailedReason;
                                  } else {
                                      msg = "Ad Failed with message: " + args.get(0).toString();
-                                     setMetricEndTime();
-                                     calculateElapsedTime();
-                                      PostFailMetricTask failTask = new PostFailMetricTask();
-                                     failTask.execute();
+
+                                     if (!isLoaded){
+                                         setMetricEndTime();
+                                         calculateElapsedTime();
+                                         PostFailMetricTask failTask = new PostFailMetricTask();
+                                         failTask.execute();
+                                         isLoaded = true;
+                                     }
+
 
                                  }
                                  break;
@@ -199,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
     Long metricStartTime;
     Long metricEndTime;
     Long metricElapsedTime;
+    float calculatedMetricElapsedTime;
 
 
     public Long getCurrentTimeInMS() {
@@ -215,6 +225,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void calculateElapsedTime(){
         metricElapsedTime = metricEndTime - metricStartTime;
+    }
+
+    public float returnElapsedTimeAsFloat(){
+        return ((float) metricElapsedTime)/1000;
     }
 
     public void postMetricResultsToRemoteWithStatus(boolean status){
@@ -234,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
 
             postBody.put("request_startTime", metricStartTime);
             postBody.put("request_endTime", metricEndTime);
-            postBody.put("request_totalTimeElapsed", metricElapsedTime);
+            postBody.put("request_totalTimeElapsed", returnElapsedTimeAsFloat());
             postBody.put("device_name", "Android Device");
             postBody.put("device_ip", "TBD");
             postBody.put("device_platform", "Android");
@@ -293,5 +307,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    public void startTimer() {
+        //set a new Timer
+        timer = new Timer();
+
+        //initialize the TimerTask's job
+        initializeTimerTask();
+
+        //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
+        timer.schedule(timerTask, 5000, 30000); //
+    }
+
+
+    public void initializeTimerTask(){
+        timerTask = new TimerTask() {
+            public void run() {
+                //use a handler to run a toast that shows the current timestamp
+                handler.post(new Runnable() {
+                    public void run() {
+                        Log.v(TestConstants.LOG_TAG, "Timer task is running!");
+                        createInterstitial();
+                    }
+                });
+            }
+        };
+    }
 
 }
