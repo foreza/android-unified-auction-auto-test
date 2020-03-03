@@ -18,13 +18,22 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+    maven {
+        url 'https://maven.google.com'
+    }
+}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 
     implementation 'com.inmobi.monetization:inmobi-ads:9.0.1'
     implementation 'com.inmobi.monetization:inmobi-mediation:9.0.1'
@@ -36,10 +45,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
-
-    // For posting to our remote
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation (name: 'AdColony/adcolony', ext:'jar')                               // (Version 3.3.10) AdColony SDK mediation
+    implementation(name: 'Facebook/AudienceNetwork-5.5', ext:'aar')                     // (Version 5.3.1) Facebook SDK mediation
+    implementation 'com.google.android.gms:play-services-ads:17.2.1'                    // (Version 17.2.1) AdMob SDK mediation
 
 }

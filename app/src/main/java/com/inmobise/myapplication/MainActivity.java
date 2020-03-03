@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
@@ -17,15 +16,15 @@ import com.aerserv.sdk.AerServInterstitial;
 import com.aerserv.sdk.AerServSdk;
 import com.aerserv.sdk.AerServTransactionInformation;
 import com.aerserv.sdk.AerServVirtualCurrency;
+import com.inmobi.sdk.InMobiSdk;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.List;;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -37,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private AerServInterstitial interstitial;
 
 
+    // Timing functionality for repeat tests
     Timer timer;
     TimerTask timerTask;
-
-    //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler();
 
 
@@ -57,17 +55,27 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // Init the InMobi Mediation SDK
     void initializeSDK(){
         AerServSdk.init(this, TestConstants.default_test_app_id);
+
+        JSONObject consentObject = new JSONObject();
+        try {
+            // Provide correct consent value to sdk which is obtained by User
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
+            // Provide 0 if GDPR is not applicable and 1 if applicable
+            consentObject.put("gdpr", "0");
+            // Provide user consent in IAB format
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB, "??");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
     // View events
 
-
     public void beginAutomatedTest(View view){
-
         Log.v(TestConstants.LOG_TAG, "Beginning test at " + getCurrentTimeInMS().toString());
         startTimer();
     }
@@ -75,17 +83,13 @@ public class MainActivity extends AppCompatActivity {
 
     void createInterstitial(){
 
-        // Null out the previous interstitial
         if (interstitial != null){
-            interstitial.kill(); // Doesn't technically do anything
             interstitial = null;
             Log.v(TestConstants.LOG_TAG, "Nulling out previous interstitial");
-
         }
 
         isLoaded = false;
 
-        // Make sure all ad calls are done from the main thread
         MainActivity.this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -100,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     void showInterstitial() {
-
         if (interstitial != null){
 
             // Also show the interstitial from the main thread
@@ -108,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Log.v(TestConstants.LOG_TAG, "Showing loaded interstitial");
-
                     interstitial.show();
                 }
 
@@ -117,12 +119,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.e(TestConstants.LOG_TAG, "Failed, interstitial not loaded yet");
-
-
     }
 
 
-    // Create the config with the listener and return it
     AerServConfig createInterstitialConfigWithPlacement(String plc, AerServEventListener listener){
 
         AerServConfig config = new AerServConfig(MainActivity.this, plc)
@@ -153,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                                  calculateElapsedTime();
                                  PostSuccessMetricTask task = new PostSuccessMetricTask();
                                  task.execute();
-                             //     showInterstitial();        // Show the interstitial as soon as Main thread is hit
                                  break;
                              case AD_FAILED:
                                  if (args.size() > 1) {
@@ -208,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
     Long metricStartTime;
     Long metricEndTime;
     Long metricElapsedTime;
-    float calculatedMetricElapsedTime;
 
 
     public Long getCurrentTimeInMS() {
@@ -316,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
         initializeTimerTask();
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
-        timer.schedule(timerTask, 5000, 30000); //
+        timer.schedule(timerTask, 5000, TestConstants.delay_before_next_ad_request); //
     }
 
 
