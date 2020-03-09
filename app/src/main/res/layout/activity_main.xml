@@ -7,15 +7,33 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/buttonBeginTest"
+        android:id="@+id/button_latency_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
-        android:onClick="beginAutomatedTest"
-        android:text="Begin Test"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="32dp"
+        android:onClick="startLatencyTest"
+        android:text="@string/latency_test"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_banner_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startBannerTest"
+        android:text="@string/banner_test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_latency_test" />
+
+    <Button
+        android:id="@+id/button_int_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startLatencyTest"
+        android:text="@string/interstitial_test"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_banner_test" />
 </androidx.constraintlayout.widget.ConstraintLayout>

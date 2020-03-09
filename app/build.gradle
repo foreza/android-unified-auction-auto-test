@@ -35,18 +35,22 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
 
-    implementation 'com.inmobi.monetization:inmobi-ads:9.0.1'
-    implementation 'com.inmobi.monetization:inmobi-mediation:9.0.1'
+    implementation 'com.inmobi.monetization:inmobi-ads:9.0.4'
+    implementation 'com.inmobi.monetization:inmobi-mediation:9.0.4'
 
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:17.0.0' //optional dependency for better targeting
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    //optional dependency for better targeting
     implementation 'androidx.browser:browser:1.0.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
-    implementation (name: 'AdColony/adcolony', ext:'jar')                               // (Version 3.3.10) AdColony SDK mediation
-    implementation(name: 'Facebook/AudienceNetwork-5.5', ext:'aar')                     // (Version 5.3.1) Facebook SDK mediation
-    implementation 'com.google.android.gms:play-services-ads:17.2.1'                    // (Version 17.2.1) AdMob SDK mediation
+    // implementation(name: 'AdColony/adcolony', ext: 'jar')
+    // (Version 3.3.10) AdColony SDK mediation
+    // implementation(name: 'Facebook/AudienceNetwork-5.5', ext: 'aar')
+    // (Version 5.3.1) Facebook SDK mediation
+    // implementation 'com.google.android.gms:play-services-ads:17.2.1'
+    // (Version 17.2.1) AdMob SDK mediation
 
 }

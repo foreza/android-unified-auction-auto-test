@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">IM Mediation Auction Tests</string>
+    <string name="latency_test">Latency Test</string>
+    <string name="banner_test">Banner Test</string>
+    <string name="interstitial_test">Interstitial Test</string>
 </resources>
