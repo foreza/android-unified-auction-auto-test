@@ -25,6 +25,11 @@ repositories {
     maven {
         url 'https://maven.google.com'
     }
+    maven {
+        url  "https://adcolony.bintray.com/AdColony"
+    }
+
+
 }
 
 
@@ -46,11 +51,14 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
 
-    // implementation(name: 'AdColony/adcolony', ext: 'jar')
-    // (Version 3.3.10) AdColony SDK mediation
-    // implementation(name: 'Facebook/AudienceNetwork-5.5', ext: 'aar')
-    // (Version 5.3.1) Facebook SDK mediation
-    // implementation 'com.google.android.gms:play-services-ads:17.2.1'
-    // (Version 17.2.1) AdMob SDK mediation
+
+    implementation 'com.vungle:publisher-sdk-android:6.4.11'
+
+    implementation 'com.adcolony:sdk:4.1.4'
+
+    implementation 'com.android.support:support-annotations:28.0.0' // Required Dependency by Audience Network SDK
+    implementation 'com.facebook.android:audience-network-sdk:5.+'
+
+     implementation 'com.google.android.gms:play-services-ads:17.2.1'
 
 }

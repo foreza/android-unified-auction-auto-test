@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (!isInitialized) {
+
+            MemoryModule.getInstance().captureStartingMemory();
+
             initializeSDK();
             Log.v(TestConstants.LOG_TAG, "Initializing SDK");
 
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeSDK(){
         AerServSdk.init(this, TestConstants.default_test_app_id);
+
+        MemoryModule.getInstance().calculateAndUpdateCurrentDiff();
 
         JSONObject consentObject = new JSONObject();
         try {
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startInterstitialTest(View view){
+
+        MemoryModule.getInstance().calculateAndUpdateCurrentDiff();
         startActivity(new Intent(this, InterstitialActivity.class));
     }
 

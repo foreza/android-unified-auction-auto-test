@@ -31,7 +31,7 @@
         android:id="@+id/button_int_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="startLatencyTest"
+        android:onClick="startInterstitialTest"
         android:text="@string/interstitial_test"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

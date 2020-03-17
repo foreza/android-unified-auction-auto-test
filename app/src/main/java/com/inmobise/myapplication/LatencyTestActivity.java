@@ -38,6 +38,10 @@ public class LatencyTestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_latency_test);
+
+        Log.v(TestConstants.LOG_TAG, "Beginning test at " + getCurrentTimeInMS().toString());
+        startTimer();
+
     }
 
 

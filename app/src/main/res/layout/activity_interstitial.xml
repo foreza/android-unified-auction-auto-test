@@ -6,4 +6,109 @@
     android:layout_height="match_parent"
     tools:context=".InterstitialActivity">
 
+    <Button
+        android:id="@+id/button_load_default"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="createDefault"
+        android:text="Default PLC"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_load_admob"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="createAdMob"
+        android:text="Load AdMob"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_load_default" />
+
+    <Button
+        android:id="@+id/button_load_adcolony"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="createAdColony"
+        android:text="Load AdColony"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_load_admob" />
+
+    <Button
+        android:id="@+id/button_load_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="createFacebook"
+        android:text="Load Facebook"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_load_adcolony" />
+
+    <Button
+        android:id="@+id/button_load_vungle"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="createVungle"
+        android:text="Load Vungle"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_load_facebook" />
+
+    <Button
+        android:id="@+id/button_load_full"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="createFull"
+        android:text="Load Full (all)"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_load_vungle" />
+
+
+    <Button
+        android:id="@+id/button_show_int"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:onClick="showInterstitial"
+        android:text="Show Interstitial"
+        android:textSize="8sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_load_full" />
+
+    <TextView
+        android:id="@+id/totalMem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="total_mem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/peakMem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="peak_mem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalMem" />
+
+    <TextView
+        android:id="@+id/peakId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/peakMem" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
